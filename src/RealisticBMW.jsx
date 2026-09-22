@@ -20,11 +20,55 @@ function normalizeAngle(value) {
   return a;
 }
 
+function styleBMWMaterial(material) {
+  if (!material) return;
+  const name = String(material.name || '').toLowerCase();
+  const isGlass = /glass|window|windshield|windscreen|transparent/.test(name);
+  const isTyre = /tire|tyre|rubber|wheel|rim/.test(name);
+  const isLight = /head|lamp|light|led|indicator|turn/.test(name);
+  const isChrome = /chrome|metal|grille|trim/.test(name);
+
+  if (isLight) {
+    if ('color' in material) material.color.setHex(0xfff4dc);
+    if ('emissive' in material) material.emissive.setHex(0xffdca0);
+    if ('emissiveIntensity' in material) material.emissiveIntensity = 1.35;
+    if ('roughness' in material) material.roughness = 0.18;
+    return;
+  }
+
+  if (isGlass) {
+    if ('color' in material) material.color.setHex(0x050706);
+    if ('roughness' in material) material.roughness = 0.12;
+    if ('metalness' in material) material.metalness = 0.25;
+    if ('transparent' in material) material.transparent = true;
+    if ('opacity' in material) material.opacity = 0.82;
+    return;
+  }
+
+  if (isTyre) {
+    if ('color' in material) material.color.setHex(0x101313);
+    if ('roughness' in material) material.roughness = 0.55;
+    return;
+  }
+
+  if (isChrome) {
+    if ('color' in material) material.color.setHex(0x454b49);
+    if ('metalness' in material) material.metalness = 0.82;
+    if ('roughness' in material) material.roughness = 0.2;
+    return;
+  }
+
+  // Default exterior treatment: deep glossy black BMW-style paint.
+  if ('color' in material) material.color.setHex(0x080a0a);
+  if ('metalness' in material) material.metalness = 0.72;
+  if ('roughness' in material) material.roughness = 0.19;
+}
+
 export default function RealisticBMW() {
   const mountRef = useRef(null);
   const groupRef = useRef(null);
   const frameRef = useRef(0);
-  const stateRef = useRef({ angle: 0, targetAngle: 0, zoom: 6.1, targetZoom: 6.1, drag: false, x: 0 });
+  const stateRef = useRef({ angle: 0, targetAngle: 0, zoom: 8.0, targetZoom: 8.0, drag: false, x: 0 });
   const [activeView, setActiveView] = useState(0);
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
@@ -34,10 +78,10 @@ export default function RealisticBMW() {
     if (!mount) return undefined;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
-    camera.position.set(0, 0.55, 6.1);
-
     const mobile = window.innerWidth <= 700;
+    const camera = new THREE.PerspectiveCamera(mobile ? 34 : 31, 1, 0.1, 100);
+    camera.position.set(0, 0.5, mobile ? 8.35 : 8.0);
+
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
       antialias: !mobile,
@@ -46,26 +90,27 @@ export default function RealisticBMW() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1.15 : 1.6));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.12;
+    renderer.toneMappingExposure = 1.05;
     renderer.shadowMap.enabled = !mobile;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     mount.appendChild(renderer.domElement);
 
-    scene.add(new THREE.HemisphereLight(0xe9f5ed, 0x06120d, 2.4));
-    const key = new THREE.DirectionalLight(0xfff5dd, 3.0);
-    key.position.set(4, 6, 6);
+    scene.add(new THREE.HemisphereLight(0xdde9e2, 0x030807, 1.65));
+    const key = new THREE.DirectionalLight(0xfff4df, 2.2);
+    key.position.set(4, 5, 7);
     key.castShadow = !mobile;
     scene.add(key);
-    const rim = new THREE.DirectionalLight(0x8dffc8, 2.0);
+    const rim = new THREE.DirectionalLight(0x68d99c, 1.25);
     rim.position.set(-5, 3, -5);
     scene.add(rim);
-    const front = new THREE.PointLight(0xffd36b, 22, 12);
-    front.position.set(0, 1.4, 4);
-    scene.add(front);
+    // Very soft warm light to make the headlights read without overpowering the black paint.
+    const headGlow = new THREE.PointLight(0xffe2ad, 4.5, 8);
+    headGlow.position.set(0, 0.65, 4.8);
+    scene.add(headGlow);
 
     const ground = new THREE.Mesh(
-      new THREE.CircleGeometry(3.0, mobile ? 32 : 64),
-      new THREE.MeshBasicMaterial({ color: 0x071711, transparent: true, opacity: 0.48, depthWrite: false })
+      new THREE.CircleGeometry(3.2, mobile ? 32 : 64),
+      new THREE.MeshBasicMaterial({ color: 0x06110b, transparent: true, opacity: 0.38, depthWrite: false })
     );
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = -1.02;
@@ -85,7 +130,8 @@ export default function RealisticBMW() {
           if (!obj.isMesh) return;
           obj.castShadow = !mobile;
           obj.receiveShadow = !mobile;
-          if (obj.material) obj.material.envMapIntensity = 1.15;
+          if (Array.isArray(obj.material)) obj.material.forEach(styleBMWMaterial);
+          else styleBMWMaterial(obj.material);
         });
 
         const box = new THREE.Box3().setFromObject(model);
@@ -93,8 +139,9 @@ export default function RealisticBMW() {
         const size = box.getSize(new THREE.Vector3());
         model.position.sub(center);
         const longest = Math.max(size.x, size.y, size.z);
-        model.scale.setScalar(4.15 / longest);
-        model.position.y = -0.28;
+        // Smaller framing keeps the complete car inside narrow Android viewports at every angle.
+        model.scale.setScalar(3.35 / longest);
+        model.position.y = -0.2;
         group.add(model);
         setLoading(false);
       },
@@ -122,7 +169,7 @@ export default function RealisticBMW() {
       s.zoom += (s.targetZoom - s.zoom) * 0.12;
       group.rotation.y = s.angle;
       camera.position.z = s.zoom;
-      camera.position.y = 0.55;
+      camera.position.y = 0.5;
       renderer.render(scene, camera);
       frameRef.current = requestAnimationFrame(animate);
     };
@@ -144,7 +191,7 @@ export default function RealisticBMW() {
     };
     const onWheel = (e) => {
       e.preventDefault();
-      stateRef.current.targetZoom = THREE.MathUtils.clamp(stateRef.current.targetZoom + e.deltaY * 0.0022, 4.7, 7.2);
+      stateRef.current.targetZoom = THREE.MathUtils.clamp(stateRef.current.targetZoom + e.deltaY * 0.0022, 6.1, 10.0);
     };
     const onTouchMove = (e) => {
       if (stateRef.current.drag && e.touches.length === 1) e.preventDefault();
