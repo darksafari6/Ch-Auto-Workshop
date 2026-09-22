@@ -12,6 +12,14 @@
 .orbit{z-index:2}.car-controls{z-index:25;bottom:1%!important}
 .feature-stage h2{font-size:0}.feature-stage h2:after{content:'Precision in every detail.';font-size:clamp(48px,6vw,78px);line-height:.98;font-family:'DM Sans',sans-serif;font-weight:800;letter-spacing:-3px;color:var(--cream)}
 .feature-stage p{max-width:500px}.feature-stage{background:radial-gradient(circle at 15% 50%,#29b87917,transparent 28%),#07110d}
+
+/* User-provided Chaudhry Auto Workshop logo: scalable and pinned to the upper-left header. */
+.site-logo{display:block;width:158px;height:56px;object-fit:contain;object-position:left center;filter:drop-shadow(0 4px 16px rgba(232,189,85,.12))}
+.nav .brand{width:190px;min-width:190px;height:62px;gap:0;overflow:hidden}
+.nav .brand .site-logo{width:178px;height:62px}
+.footer-brand{height:auto!important;width:190px!important;min-width:190px!important}.footer-logo{height:72px!important;width:190px!important}
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+
 @media(max-width:900px){
  .car-hero{display:block;min-height:auto;padding:104px 20px 0}
  .hero-copy{max-width:100%;padding:20px 14px 0}
@@ -29,6 +37,8 @@
  .car-controls{font-size:7px;gap:10px;bottom:3%!important}
  .feature-stage{display:none}
  .marquee{margin-top:0}
+ .nav .brand,.nav .brand .site-logo{width:152px;min-width:152px;height:54px}
+ .nav .brand .site-logo{width:150px}
 }
 @media(max-width:520px){
  .car-hero{padding-left:12px;padding-right:12px}
