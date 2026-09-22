@@ -98,9 +98,10 @@ export default function RealisticBMW() {
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = -1.02;
     scene.add(ground);
-    // Fixed visual centre: the whole BMW rotates around this one stable pivot.
+    // Fixed visual centre: keep the BMW centred on the orbit while rotating.
     const group = new THREE.Group();
-    group.position.set(0, 0.58, 0);
+    // Slightly higher than before so the BMW sits on the centre of the visible orbit.
+    group.position.set(0, 0.84, 0);
     scene.add(group);
     groupRef.current = group;
     const loader = new GLTFLoader();
@@ -119,7 +120,6 @@ export default function RealisticBMW() {
       const size = box.getSize(new THREE.Vector3());
       model.position.set(-center.x, -center.y, -center.z);
       const longest = Math.max(size.x, size.y, size.z);
-      // Larger than the previous mobile framing, with safe margins.
       model.scale.setScalar(3.58 / longest);
       group.add(model);
       setLoading(false);
