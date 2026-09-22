@@ -98,10 +98,9 @@ export default function RealisticBMW() {
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = -1.02;
     scene.add(ground);
-    // Fixed visual centre: keep the BMW centred on the orbit while rotating.
+    // Keep the BMW slightly above the previous position while preserving its fixed rotation pivot.
     const group = new THREE.Group();
-    // Slightly higher than before so the BMW sits on the centre of the visible orbit.
-    group.position.set(0, 0.84, 0);
+    group.position.set(0, 1.12, 0);
     scene.add(group);
     groupRef.current = group;
     const loader = new GLTFLoader();
