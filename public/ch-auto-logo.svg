@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360" role="img" aria-label="Chaudhry Auto Workshop logo">
+<defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="#0b2944"/><stop offset="1" stop-color="#173b5d"/></linearGradient></defs>
+<g fill="none" stroke="url(#g)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+<path d="M110 125 Q190 45 330 50 L560 55 Q670 60 770 135 L805 175 L85 175 Z" fill="#fff"/>
+<path d="M180 120 Q235 70 325 70 L420 72 L460 120 Z" fill="#102c46"/>
+<path d="M475 120 L570 78 Q650 82 715 125 L740 150 L490 150 Z" fill="#102c46"/>
+<path d="M88 177 L805 177"/>
+<circle cx="210" cy="180" r="43" fill="#fff"/><circle cx="210" cy="180" r="18" fill="#d8dadd"/>
+<circle cx="670" cy="180" r="43" fill="#fff"/><circle cx="670" cy="180" r="18" fill="#d8dadd"/>
+<path d="M110 145 L160 130"/><path d="M760 142 L802 153"/>
+</g>
+<path d="M335 104 L430 104 L407 118 L320 118 Z" fill="#f2b900"/>
+<path d="M535 116 L600 116 L620 130 L548 130 Z" fill="#f2b900"/>
+<text x="450" y="245" text-anchor="middle" font-family="Arial,sans-serif" font-size="72" font-weight="900" letter-spacing="5" fill="#102c46">CHAUDHRY</text>
+<text x="450" y="300" text-anchor="middle" font-family="Arial,sans-serif" font-size="30" font-weight="800" letter-spacing="8" fill="#171717">AUTO WORKSHOP</text>
+<text x="450" y="338" text-anchor="middle" font-family="Noto Nastaliq Urdu, Noto Naskh Arabic, serif" font-size="27" font-weight="700" fill="#102c46">چوہدری آٹو ورکشاپ</text>
+</svg>
