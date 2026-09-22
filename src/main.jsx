@@ -5,6 +5,7 @@ import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import {ArrowRight, Phone, MapPin, Wrench, Gauge, ShieldCheck, BatteryCharging, CarFront, Menu, X, CheckCircle2, Clock3, Sparkles} from 'lucide-react';
 import './styles.css';
+import './experience.css';
 import './interactive.js';
 import {mountExperience} from './experience.js';
 
