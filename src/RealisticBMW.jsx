@@ -27,8 +27,6 @@ function styleBMWMaterial(material) {
   const isTyre = /tire|tyre|rubber|wheel|rim/.test(name);
   const isLight = /head|lamp|light|led|indicator|turn/.test(name);
   const isChrome = /chrome|metal|grille|trim/.test(name);
-
-  // Requested: subtle red BMW light signature.
   if (isLight) {
     if ('color' in material) material.color.setHex(0x8f0710);
     if ('emissive' in material) material.emissive.setHex(0xff0714);
@@ -36,7 +34,6 @@ function styleBMWMaterial(material) {
     if ('roughness' in material) material.roughness = 0.16;
     return;
   }
-
   if (isGlass) {
     if ('color' in material) material.color.setHex(0x030405);
     if ('roughness' in material) material.roughness = 0.1;
@@ -45,21 +42,17 @@ function styleBMWMaterial(material) {
     if ('opacity' in material) material.opacity = 0.84;
     return;
   }
-
   if (isTyre) {
     if ('color' in material) material.color.setHex(0x0b0c0c);
     if ('roughness' in material) material.roughness = 0.58;
     return;
   }
-
   if (isChrome) {
     if ('color' in material) material.color.setHex(0x363a39);
     if ('metalness' in material) material.metalness = 0.86;
     if ('roughness' in material) material.roughness = 0.2;
     return;
   }
-
-  // Deep glossy black exterior.
   if ('color' in material) material.color.setHex(0x050607);
   if ('metalness' in material) material.metalness = 0.76;
   if ('roughness' in material) material.roughness = 0.17;
@@ -77,19 +70,12 @@ export default function RealisticBMW() {
   useEffect(() => {
     const mount = mountRef.current;
     if (!mount) return undefined;
-
     const scene = new THREE.Scene();
     const mobile = window.innerWidth <= 700;
-    // Orthographic framing keeps the car's pivot visually locked in place while rotating.
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 100);
     camera.position.set(0, 0.35, 10);
     camera.lookAt(0, 0.05, 0);
-
-    const renderer = new THREE.WebGLRenderer({
-      alpha: true,
-      antialias: !mobile,
-      powerPreference: 'high-performance',
-    });
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: !mobile, powerPreference: 'high-performance' });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1.15 : 1.6));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -97,7 +83,6 @@ export default function RealisticBMW() {
     renderer.shadowMap.enabled = !mobile;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     mount.appendChild(renderer.domElement);
-
     scene.add(new THREE.HemisphereLight(0xdde9e2, 0x030807, 1.5));
     const key = new THREE.DirectionalLight(0xfff4df, 2.15);
     key.position.set(4, 5, 7);
@@ -109,52 +94,36 @@ export default function RealisticBMW() {
     const redGlow = new THREE.PointLight(0xff0612, 2.8, 7);
     redGlow.position.set(0, 0.55, 4.2);
     scene.add(redGlow);
-
-    const ground = new THREE.Mesh(
-      new THREE.CircleGeometry(3.2, mobile ? 32 : 64),
-      new THREE.MeshBasicMaterial({ color: 0x06110b, transparent: true, opacity: 0.34, depthWrite: false })
-    );
+    const ground = new THREE.Mesh(new THREE.CircleGeometry(3.2, mobile ? 32 : 64), new THREE.MeshBasicMaterial({ color: 0x06110b, transparent: true, opacity: 0.34, depthWrite: false }));
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = -1.02;
     scene.add(ground);
-
+    // Fixed visual centre: the whole BMW rotates around this one stable pivot.
     const group = new THREE.Group();
-    // This group is the single, fixed rotation pivot. The model is centered on it before rotation.
-    group.position.set(0, 0.18, 0);
+    group.position.set(0, 0.58, 0);
     scene.add(group);
     groupRef.current = group;
-
     const loader = new GLTFLoader();
     loader.setMeshoptDecoder(MeshoptDecoder);
-    loader.load(
-      MODEL_URL,
-      (gltf) => {
-        const model = gltf.scene;
-        model.traverse((obj) => {
-          if (!obj.isMesh) return;
-          obj.castShadow = !mobile;
-          obj.receiveShadow = !mobile;
-          if (Array.isArray(obj.material)) obj.material.forEach(styleBMWMaterial);
-          else styleBMWMaterial(obj.material);
-        });
-
-        const box = new THREE.Box3().setFromObject(model);
-        const center = box.getCenter(new THREE.Vector3());
-        const size = box.getSize(new THREE.Vector3());
-        // Remove every world-space offset first so the visual centre and rotation pivot are identical.
-        model.position.set(-center.x, -center.y, -center.z);
-        const longest = Math.max(size.x, size.y, size.z);
-        model.scale.setScalar(3.05 / longest);
-        group.add(model);
-        setLoading(false);
-      },
-      undefined,
-      () => {
-        setLoading(false);
-        setFailed(true);
-      }
-    );
-
+    loader.load(MODEL_URL, (gltf) => {
+      const model = gltf.scene;
+      model.traverse((obj) => {
+        if (!obj.isMesh) return;
+        obj.castShadow = !mobile;
+        obj.receiveShadow = !mobile;
+        if (Array.isArray(obj.material)) obj.material.forEach(styleBMWMaterial);
+        else styleBMWMaterial(obj.material);
+      });
+      const box = new THREE.Box3().setFromObject(model);
+      const center = box.getCenter(new THREE.Vector3());
+      const size = box.getSize(new THREE.Vector3());
+      model.position.set(-center.x, -center.y, -center.z);
+      const longest = Math.max(size.x, size.y, size.z);
+      // Larger than the previous mobile framing, with safe margins.
+      model.scale.setScalar(3.58 / longest);
+      group.add(model);
+      setLoading(false);
+    }, undefined, () => { setLoading(false); setFailed(true); });
     const resize = () => {
       const w = Math.max(mount.clientWidth, 1);
       const h = Math.max(mount.clientHeight, 1);
@@ -170,7 +139,6 @@ export default function RealisticBMW() {
     resize();
     const ro = new ResizeObserver(resize);
     ro.observe(mount);
-
     const animate = () => {
       const s = stateRef.current;
       s.angle += (s.targetAngle - s.angle) * 0.12;
@@ -182,40 +150,22 @@ export default function RealisticBMW() {
       frameRef.current = requestAnimationFrame(animate);
     };
     animate();
-
-    const onPointerDown = (e) => {
-      stateRef.current.drag = true;
-      stateRef.current.x = e.clientX;
-      mount.setPointerCapture?.(e.pointerId);
-    };
-    const onPointerMove = (e) => {
-      const s = stateRef.current;
-      if (!s.drag) return;
-      s.targetAngle += (e.clientX - s.x) * 0.012;
-      s.x = e.clientX;
-    };
+    const onPointerDown = (e) => { stateRef.current.drag = true; stateRef.current.x = e.clientX; mount.setPointerCapture?.(e.pointerId); };
+    const onPointerMove = (e) => { const s = stateRef.current; if (!s.drag) return; s.targetAngle += (e.clientX - s.x) * 0.012; s.x = e.clientX; };
     const onPointerUp = () => { stateRef.current.drag = false; };
-    const onWheel = (e) => {
-      e.preventDefault();
-      stateRef.current.targetZoom = THREE.MathUtils.clamp(stateRef.current.targetZoom - e.deltaY * 0.0007, 0.82, 1.28);
-    };
-    const onTouchMove = (e) => {
-      if (stateRef.current.drag && e.touches.length === 1) e.preventDefault();
-    };
-
+    const onWheel = (e) => { e.preventDefault(); stateRef.current.targetZoom = THREE.MathUtils.clamp(stateRef.current.targetZoom - e.deltaY * 0.0007, 0.82, 1.28); };
+    const onTouchMove = (e) => { if (stateRef.current.drag && e.touches.length === 1) e.preventDefault(); };
     mount.addEventListener('pointerdown', onPointerDown);
     mount.addEventListener('pointermove', onPointerMove);
     mount.addEventListener('pointerup', onPointerUp);
     mount.addEventListener('pointercancel', onPointerUp);
     mount.addEventListener('wheel', onWheel, { passive: false });
     mount.addEventListener('touchmove', onTouchMove, { passive: false });
-
     const viewTimer = window.setInterval(() => {
       const angle = normalizeAngle(stateRef.current.angle);
       const index = Math.round(angle / (Math.PI / 2)) % 4;
       setActiveView(index);
     }, 80);
-
     return () => {
       window.clearInterval(viewTimer);
       cancelAnimationFrame(frameRef.current);
