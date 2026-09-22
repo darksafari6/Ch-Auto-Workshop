@@ -98,9 +98,10 @@ export default function RealisticBMW() {
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = -1.02;
     scene.add(ground);
-    // Keep the BMW slightly above the previous position while preserving its fixed rotation pivot.
+    // Raise the BMW further so its visual centre sits higher in the hero frame.
+    // The model remains on one fixed pivot so rotation does not make it drift.
     const group = new THREE.Group();
-    group.position.set(0, 1.12, 0);
+    group.position.set(0, 1.52, 0);
     scene.add(group);
     groupRef.current = group;
     const loader = new GLTFLoader();
