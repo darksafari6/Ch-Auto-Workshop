@@ -28,47 +28,48 @@ function styleBMWMaterial(material) {
   const isLight = /head|lamp|light|led|indicator|turn/.test(name);
   const isChrome = /chrome|metal|grille|trim/.test(name);
 
+  // Requested: subtle red BMW light signature.
   if (isLight) {
-    if ('color' in material) material.color.setHex(0xfff4dc);
-    if ('emissive' in material) material.emissive.setHex(0xffdca0);
-    if ('emissiveIntensity' in material) material.emissiveIntensity = 1.35;
-    if ('roughness' in material) material.roughness = 0.18;
+    if ('color' in material) material.color.setHex(0x8f0710);
+    if ('emissive' in material) material.emissive.setHex(0xff0714);
+    if ('emissiveIntensity' in material) material.emissiveIntensity = 0.72;
+    if ('roughness' in material) material.roughness = 0.16;
     return;
   }
 
   if (isGlass) {
-    if ('color' in material) material.color.setHex(0x050706);
-    if ('roughness' in material) material.roughness = 0.12;
-    if ('metalness' in material) material.metalness = 0.25;
+    if ('color' in material) material.color.setHex(0x030405);
+    if ('roughness' in material) material.roughness = 0.1;
+    if ('metalness' in material) material.metalness = 0.3;
     if ('transparent' in material) material.transparent = true;
-    if ('opacity' in material) material.opacity = 0.82;
+    if ('opacity' in material) material.opacity = 0.84;
     return;
   }
 
   if (isTyre) {
-    if ('color' in material) material.color.setHex(0x101313);
-    if ('roughness' in material) material.roughness = 0.55;
+    if ('color' in material) material.color.setHex(0x0b0c0c);
+    if ('roughness' in material) material.roughness = 0.58;
     return;
   }
 
   if (isChrome) {
-    if ('color' in material) material.color.setHex(0x454b49);
-    if ('metalness' in material) material.metalness = 0.82;
+    if ('color' in material) material.color.setHex(0x363a39);
+    if ('metalness' in material) material.metalness = 0.86;
     if ('roughness' in material) material.roughness = 0.2;
     return;
   }
 
-  // Default exterior treatment: deep glossy black BMW-style paint.
-  if ('color' in material) material.color.setHex(0x080a0a);
-  if ('metalness' in material) material.metalness = 0.72;
-  if ('roughness' in material) material.roughness = 0.19;
+  // Deep glossy black exterior.
+  if ('color' in material) material.color.setHex(0x050607);
+  if ('metalness' in material) material.metalness = 0.76;
+  if ('roughness' in material) material.roughness = 0.17;
 }
 
 export default function RealisticBMW() {
   const mountRef = useRef(null);
   const groupRef = useRef(null);
   const frameRef = useRef(0);
-  const stateRef = useRef({ angle: 0, targetAngle: 0, zoom: 8.0, targetZoom: 8.0, drag: false, x: 0 });
+  const stateRef = useRef({ angle: 0, targetAngle: 0, zoom: 1, targetZoom: 1, drag: false, x: 0 });
   const [activeView, setActiveView] = useState(0);
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
@@ -79,8 +80,10 @@ export default function RealisticBMW() {
 
     const scene = new THREE.Scene();
     const mobile = window.innerWidth <= 700;
-    const camera = new THREE.PerspectiveCamera(mobile ? 34 : 31, 1, 0.1, 100);
-    camera.position.set(0, 0.5, mobile ? 8.35 : 8.0);
+    // Orthographic framing keeps the car's pivot visually locked in place while rotating.
+    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 100);
+    camera.position.set(0, 0.35, 10);
+    camera.lookAt(0, 0.05, 0);
 
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
@@ -90,33 +93,34 @@ export default function RealisticBMW() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1.15 : 1.6));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.05;
+    renderer.toneMappingExposure = 1.02;
     renderer.shadowMap.enabled = !mobile;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     mount.appendChild(renderer.domElement);
 
-    scene.add(new THREE.HemisphereLight(0xdde9e2, 0x030807, 1.65));
-    const key = new THREE.DirectionalLight(0xfff4df, 2.2);
+    scene.add(new THREE.HemisphereLight(0xdde9e2, 0x030807, 1.5));
+    const key = new THREE.DirectionalLight(0xfff4df, 2.15);
     key.position.set(4, 5, 7);
     key.castShadow = !mobile;
     scene.add(key);
-    const rim = new THREE.DirectionalLight(0x68d99c, 1.25);
+    const rim = new THREE.DirectionalLight(0x68d99c, 1.15);
     rim.position.set(-5, 3, -5);
     scene.add(rim);
-    // Very soft warm light to make the headlights read without overpowering the black paint.
-    const headGlow = new THREE.PointLight(0xffe2ad, 4.5, 8);
-    headGlow.position.set(0, 0.65, 4.8);
-    scene.add(headGlow);
+    const redGlow = new THREE.PointLight(0xff0612, 2.8, 7);
+    redGlow.position.set(0, 0.55, 4.2);
+    scene.add(redGlow);
 
     const ground = new THREE.Mesh(
       new THREE.CircleGeometry(3.2, mobile ? 32 : 64),
-      new THREE.MeshBasicMaterial({ color: 0x06110b, transparent: true, opacity: 0.38, depthWrite: false })
+      new THREE.MeshBasicMaterial({ color: 0x06110b, transparent: true, opacity: 0.34, depthWrite: false })
     );
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = -1.02;
     scene.add(ground);
 
     const group = new THREE.Group();
+    // This group is the single, fixed rotation pivot. The model is centered on it before rotation.
+    group.position.set(0, 0.18, 0);
     scene.add(group);
     groupRef.current = group;
 
@@ -137,11 +141,10 @@ export default function RealisticBMW() {
         const box = new THREE.Box3().setFromObject(model);
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
-        model.position.sub(center);
+        // Remove every world-space offset first so the visual centre and rotation pivot are identical.
+        model.position.set(-center.x, -center.y, -center.z);
         const longest = Math.max(size.x, size.y, size.z);
-        // Smaller framing keeps the complete car inside narrow Android viewports at every angle.
-        model.scale.setScalar(3.35 / longest);
-        model.position.y = -0.2;
+        model.scale.setScalar(3.05 / longest);
         group.add(model);
         setLoading(false);
       },
@@ -155,7 +158,12 @@ export default function RealisticBMW() {
     const resize = () => {
       const w = Math.max(mount.clientWidth, 1);
       const h = Math.max(mount.clientHeight, 1);
-      camera.aspect = w / h;
+      const aspect = w / h;
+      const halfHeight = mobile ? 3.05 : 2.9;
+      camera.left = -halfHeight * aspect;
+      camera.right = halfHeight * aspect;
+      camera.top = halfHeight;
+      camera.bottom = -halfHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h, false);
     };
@@ -168,8 +176,8 @@ export default function RealisticBMW() {
       s.angle += (s.targetAngle - s.angle) * 0.12;
       s.zoom += (s.targetZoom - s.zoom) * 0.12;
       group.rotation.y = s.angle;
-      camera.position.z = s.zoom;
-      camera.position.y = 0.5;
+      camera.zoom = s.zoom;
+      camera.updateProjectionMatrix();
       renderer.render(scene, camera);
       frameRef.current = requestAnimationFrame(animate);
     };
@@ -183,15 +191,13 @@ export default function RealisticBMW() {
     const onPointerMove = (e) => {
       const s = stateRef.current;
       if (!s.drag) return;
-      s.targetAngle += (e.clientX - s.x) * 0.014;
+      s.targetAngle += (e.clientX - s.x) * 0.012;
       s.x = e.clientX;
     };
-    const onPointerUp = () => {
-      stateRef.current.drag = false;
-    };
+    const onPointerUp = () => { stateRef.current.drag = false; };
     const onWheel = (e) => {
       e.preventDefault();
-      stateRef.current.targetZoom = THREE.MathUtils.clamp(stateRef.current.targetZoom + e.deltaY * 0.0022, 6.1, 10.0);
+      stateRef.current.targetZoom = THREE.MathUtils.clamp(stateRef.current.targetZoom - e.deltaY * 0.0007, 0.82, 1.28);
     };
     const onTouchMove = (e) => {
       if (stateRef.current.drag && e.touches.length === 1) e.preventDefault();
@@ -230,32 +236,17 @@ export default function RealisticBMW() {
     <div className="bmw-experience" aria-label="Interactive BMW M4 360 degree showroom">
       <div className="bmw-orbit bmw-orbit-a"><span>BMW M4 • CH AUTO • SAHIWAL • PRECISION CARE •</span></div>
       <div className="bmw-orbit bmw-orbit-b"><span>360° • ENGINE • BRAKES • SUSPENSION • DIAGNOSTICS •</span></div>
-
       <div ref={mountRef} className="bmw-canvas" />
-
       {!loading && !failed && VIEWS.map((item, index) => {
         const distance = Math.min(Math.abs(index - activeView), 4 - Math.abs(index - activeView));
         const isActive = distance === 0;
-        return (
-          <div
-            key={item[0]}
-            className={`bmw-hotspot hotspot-${index} ${isActive ? 'is-active' : ''}`}
-            aria-hidden={!isActive}
-          >
-            <span>{item[0]} VIEW</span>
-            <strong>{item[1]}</strong>
-            <small>{item[2]}</small>
-          </div>
-        );
+        return <div key={item[0]} className={`bmw-hotspot hotspot-${index} ${isActive ? 'is-active' : ''}`} aria-hidden={!isActive}>
+          <span>{item[0]} VIEW</span><strong>{item[1]}</strong><small>{item[2]}</small>
+        </div>;
       })}
-
       {loading && <div className="bmw-loading">LOADING 3D VEHICLE<span>Preparing the showroom</span></div>}
       {failed && <div className="bmw-loading">3D VIEW UNAVAILABLE<span>Please refresh to retry</span></div>}
-
-      <div className="bmw-controls">
-        <span><Rotate3D /> DRAG TO ROTATE 360°</span>
-        <span><ZoomIn /> SCROLL TO ZOOM</span>
-      </div>
+      <div className="bmw-controls"><span><Rotate3D /> DRAG TO ROTATE 360°</span><span><ZoomIn /> SCROLL TO ZOOM</span></div>
     </div>
   );
 }
