@@ -1,1 +1,52 @@
-:root{--bg:#f7f7f4;--panel:#ffffff;--cream:#111513;--muted:#66716c;--green:#168b59;--gold:#b88718;--line:rgba(17,21,19,.12)}html,body{background:#f7f7f4!important;color:#111513!important}.nav{background:rgba(255,255,255,.86)!important;border-bottom-color:rgba(17,21,19,.12)!important;box-shadow:0 8px 30px rgba(17,21,19,.06)}nav button{color:#34403a!important}.nav-cta{color:#111513!important;border-color:rgba(184,135,24,.55)!important}.mobile{color:#111513!important}.car-hero{background:radial-gradient(circle at 78% 48%,rgba(22,139,89,.10),transparent 29%),radial-gradient(circle at 95% 85%,rgba(184,135,24,.10),transparent 25%),#f7f7f4!important}.hero-ambient{background:radial-gradient(circle at 76% 48%,rgba(22,139,89,.09),transparent 28%),linear-gradient(100deg,rgba(247,247,244,.98),rgba(247,247,244,.9) 35%,rgba(247,247,244,.5) 60%,rgba(247,247,244,.12))!important}.hero-grid{opacity:.25!important;background-image:linear-gradient(rgba(17,21,19,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(17,21,19,.045) 1px,transparent 1px)!important}.hero h1 em,h2 em{color:#26302b!important}.hero-copy>p,.section-head>p,.feature-stage p,.service p,.contact-copy p{color:#66716c!important}.primary{background:#e4b83f!important;color:#171b16!important}.ghost{color:#26302b!important;border-color:rgba(17,21,19,.16)!important}.trust{color:#66716c!important}.car-copy{color:#68746e!important}.car-copy b{color:#111513!important}.marquee{background:#fff!important;border-color:rgba(17,21,19,.10)!important;color:#9b7110!important}.feature-stage,.section,.services-new,.dark,.why-section,.workshop,.contact{background:#f7f7f4!important;border-color:rgba(17,21,19,.10)!important}.feature-stack article,.service{background:rgba(255,255,255,.88)!important;border-color:rgba(17,21,19,.11)!important;box-shadow:0 18px 50px rgba(17,21,19,.08)!important}.service h3,.why-item h3,.why-main h3{color:#111513!important}.service p,.why-item p,.why-main p{color:#66716c!important}.icon{background:rgba(22,139,89,.07)!important;border-color:rgba(22,139,89,.15)!important}.visual{background:radial-gradient(circle at center,rgba(22,139,89,.10),transparent 55%),linear-gradient(135deg,#fff,#edf3ef)!important;border-color:rgba(17,21,19,.12)!important;box-shadow:0 30px 80px rgba(17,21,19,.10)!important}.garage-card{background:rgba(255,255,255,.82)!important;border-color:rgba(184,135,24,.5)!important;box-shadow:20px 25px 60px rgba(17,21,19,.10)!important;color:#111513!important}.garage-card p{color:#66716c!important}.feature-number{color:rgba(17,21,19,.045)!important}.photo{border-color:rgba(17,21,19,.10)!important}.banner{background:#fff!important;border-color:rgba(17,21,19,.10)!important}.contact-list>a,.contact-list>div{background:rgba(255,255,255,.88)!important;border-color:rgba(17,21,19,.11)!important;color:#111513!important}.contact-list small,.form small{color:#66716c!important}.form{background:#fff!important;border-color:rgba(17,21,19,.11)!important;box-shadow:0 25px 70px rgba(17,21,19,.08)!important}.form input,.form textarea{background:#f7f7f4!important;border-color:rgba(17,21,19,.14)!important;color:#111513!important}.form input::placeholder,.form textarea::placeholder{color:#8a948f!important}.bmw-experience{background:radial-gradient(circle at 50% 48%,rgba(22,139,89,.08),transparent 48%),radial-gradient(circle at 50% 90%,rgba(184,135,24,.06),transparent 30%)!important}.bmw-hotspot strong{color:#168b59!important;text-shadow:none!important}.bmw-hotspot span{color:#168b59!important}.bmw-hotspot small{color:#4d765f!important}.bmw-controls{color:#6d7872!important}.bmw-loading{background:rgba(247,247,244,.88)!important;color:#9b7110!important}.bmw-loading span{color:#66716c!important}footer{background:#fff!important;border-top-color:rgba(17,21,19,.10)!important;color:#66716c!important}footer button{color:#111513!important}.site-logo{filter:none!important}@media(max-width:700px){.nav{background:rgba(255,255,255,.94)!important}.nav nav{background:rgba(255,255,255,.98)!important}.car-hero{background:#f7f7f4!important}.hero-ambient{background:linear-gradient(180deg,rgba(247,247,244,.96),rgba(247,247,244,.7))!important}}
+:root{
+ --bg:#f4f8fb;--panel:rgba(255,255,255,.46);--cream:#10232d;--muted:#647984;
+ --green:#118b68;--gold:#b98a25;--line:rgba(29,65,82,.12);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:linear-gradient(135deg,#f8fbfd 0%,#edf7f4 48%,#f7fbfd 100%)!important;color:#10232d!important}
+.nav{background:rgba(255,255,255,.58)!important;border-bottom:1px solid rgba(29,65,82,.11)!important;box-shadow:0 12px 40px rgba(30,70,90,.08)!important;backdrop-filter:blur(24px) saturate(150%)!important;-webkit-backdrop-filter:blur(24px) saturate(150%)}
+.brand b{color:#10232d!important}.brand small{color:var(--green)!important}.brand>span{color:var(--gold)!important;border-color:rgba(185,138,37,.5)!important}
+nav button{color:#36515f!important}nav button:hover{color:var(--green)!important}.nav-cta{color:#18333f!important;background:rgba(255,255,255,.34)!important;border-color:rgba(185,138,37,.4)!important;box-shadow:0 8px 24px rgba(35,70,90,.05)}
+.mobile{color:#18333f!important}
+.car-hero{background:radial-gradient(circle at 75% 40%,rgba(46,184,151,.13),transparent 30%),radial-gradient(circle at 92% 85%,rgba(215,185,92,.12),transparent 25%),#f5f9fb!important}
+.hero-ambient{background:radial-gradient(circle at 76% 48%,rgba(46,184,151,.09),transparent 29%),linear-gradient(100deg,rgba(248,251,253,.94),rgba(248,251,253,.72) 42%,rgba(248,251,253,.22))!important}
+.hero-grid{opacity:.13!important;background-image:linear-gradient(rgba(29,65,82,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(29,65,82,.09) 1px,transparent 1px)!important}
+.eyebrow{color:var(--green)!important}.hero h1,h2,.section-head h2{color:#10232d!important}.hero h1 em,h2 em{color:#45616e!important}
+.hero-copy>p,.section-head>p,.feature-stage p,.service p,.contact-copy p{color:#647984!important}
+.primary{background:linear-gradient(135deg,#118b68,#45b99a)!important;color:white!important;box-shadow:0 14px 34px rgba(17,139,104,.20)!important}.primary:hover{box-shadow:0 20px 44px rgba(17,139,104,.25)!important}
+.ghost{background:rgba(255,255,255,.42)!important;color:#244653!important;border:1px solid rgba(29,65,82,.13)!important;backdrop-filter:blur(16px);box-shadow:0 10px 28px rgba(30,70,90,.06)}
+.trust{color:#647984!important}.trust svg{color:var(--green)!important}
+.marquee{background:rgba(255,255,255,.45)!important;color:#8d6815!important;border-color:rgba(29,65,82,.10)!important;backdrop-filter:blur(18px)}
+.feature-stage,.services-new,.dark,.why-section,.workshop,.contact,.section{background:transparent!important}
+.feature-stage{border-bottom-color:rgba(29,65,82,.09)!important}
+.feature-stack article,.service,.why-main,.why-item,.visual,.garage-card,.photo,.form,.contact-list>a,.contact-list>div{
+ background:rgba(255,255,255,.48)!important;
+ border:1px solid rgba(255,255,255,.78)!important;
+ backdrop-filter:blur(22px) saturate(145%)!important;
+ -webkit-backdrop-filter:blur(22px) saturate(145%)!important;
+ box-shadow:0 24px 65px rgba(35,70,90,.11),inset 0 1px 0 rgba(255,255,255,.88)!important;
+ border-radius:24px!important;
+}
+.feature-stack article:hover,.service:hover,.why-item:hover{border-color:rgba(17,139,104,.28)!important;box-shadow:0 30px 75px rgba(35,70,90,.15),inset 0 1px 0 rgba(255,255,255,.92)!important}
+.service h3,.why-main h3,.why-item h3,.feature-stack strong{color:#18333f!important}.service p,.why-main p,.why-item p{color:#647984!important}
+.icon{background:rgba(17,139,104,.07)!important;border-color:rgba(17,139,104,.13)!important;color:var(--green)!important;border-radius:14px!important}
+.visual{background:radial-gradient(circle at center,rgba(17,139,104,.09),transparent 55%),rgba(255,255,255,.38)!important}
+.garage-card{color:#18333f!important}.garage-card p{color:#647984!important}.garage-card span{color:#987116!important}
+.photo{overflow:hidden}.photo:before{background:radial-gradient(circle at 60% 40%,rgba(17,139,104,.12),transparent 25%),linear-gradient(135deg,transparent,rgba(30,70,90,.08))!important}.photo span{color:#36515f!important}
+.banner{background:rgba(255,255,255,.42)!important;border-color:rgba(29,65,82,.10)!important;backdrop-filter:blur(20px)}
+.form label{color:#506873!important}.form input,.form textarea{background:rgba(255,255,255,.52)!important;border:1px solid rgba(29,65,82,.13)!important;color:#18333f!important;border-radius:16px!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 24px rgba(35,70,90,.04)!important}
+.form input:focus,.form textarea:focus{border-color:rgba(17,139,104,.38)!important;box-shadow:0 0 0 4px rgba(17,139,104,.07),inset 0 1px 0 rgba(255,255,255,.9)!important}
+.contact-list>a,.contact-list>div{color:#18333f!important}.contact-list svg{color:var(--green)!important}.contact-list small,.form small{color:#71838b!important}
+footer{background:rgba(255,255,255,.5)!important;border-top:1px solid rgba(29,65,82,.10)!important;backdrop-filter:blur(22px)!important}
+footer p{color:#71838b!important}footer button{color:#18333f!important}
+.car-hotspot{background:rgba(255,255,255,.50)!important;border-color:rgba(255,255,255,.82)!important;color:#18333f!important;backdrop-filter:blur(20px) saturate(150%)!important;box-shadow:0 20px 55px rgba(35,70,90,.13)!important;border-radius:18px!important}
+.car-hotspot b{color:#18333f!important}.car-hotspot small{color:#647984!important}.car-hotspot span{color:var(--green)!important}
+.car-controls{color:#647984!important}.car-controls svg{color:var(--green)!important}
+.bmw-experience{background:radial-gradient(circle at 50% 48%,rgba(17,139,104,.08),transparent 48%),radial-gradient(circle at 50% 90%,rgba(185,138,37,.06),transparent 30%)!important}
+.bmw-loading{background:rgba(248,251,253,.78)!important;color:#9b7418!important;backdrop-filter:blur(20px)}
+@media(max-width:700px){
+ .nav{background:rgba(255,255,255,.72)!important}.nav nav{background:rgba(255,255,255,.78)!important;backdrop-filter:blur(24px)!important}
+ .feature-stack article,.service,.why-main,.why-item,.visual,.garage-card,.photo,.form,.contact-list>a,.contact-list>div{border-radius:20px!important}
+ .car-hero{background:linear-gradient(180deg,#f8fbfd,#edf8f5)!important}.hero-ambient{background:linear-gradient(180deg,rgba(248,251,253,.94),rgba(248,251,253,.60))!important}
+}
