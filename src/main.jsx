@@ -6,6 +6,7 @@ import {ArrowRight,Phone,MapPin,Wrench,Gauge,ShieldCheck,BatteryCharging,CarFron
 import './styles.css';
 import './experience.css';
 import './visual-polish.css';
+import './light-theme.css';
 import RealisticBMW from './RealisticBMW.jsx';
 gsap.registerPlugin(ScrollTrigger);
 
