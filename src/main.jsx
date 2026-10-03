@@ -10,11 +10,12 @@ import './light-theme.css';
 import RealisticBMW from './RealisticBMW.jsx';
 gsap.registerPlugin(ScrollTrigger);
 
-const LOGO='/ch-auto-logo.webp?v=20261003-4';
-const LOGO_FALLBACK='/ch-auto-logo.svg?v=20261003-4';
+const LOGO='/ch-auto-logo-exact.svg';
+const LOGO_FALLBACK='/ch-auto-logo.webp';
+const LOGO_FALLBACK_2='/ch-auto-logo.svg';
 const services=[['Engine Diagnostics','Computer scanning, fault tracing and accurate engine health checks.',Gauge],['Oil Change & Maintenance','Quality oil service, filters, fluids and preventive maintenance.',Wrench],['Catalytic Converter Service','Inspection, cleaning and troubleshooting for exhaust performance.',CarFront],['Suspension & Steering Check','Brake, suspension, wheel and steering safety inspection.',ShieldCheck],['Battery Inspection','Battery health, charging system and starting diagnostics.',BatteryCharging],['Engine Overhauling','Detailed engine repair and overhaul work with careful inspection.',Wrench],['Throttle Body Cleaning','Restore smoother throttle response and better idle performance.',Gauge],['Injector Cleaning','Fuel injector cleaning for efficient combustion and performance.',Sparkles],['Spark Plug Cleaning','Inspection and cleaning to support reliable ignition.',Sparkles],['4-Wheel Brake Service','Brake inspection, cleaning and maintenance for confident stopping.',ShieldCheck]];
 
-function Logo({footer=false}){return <img src={LOGO} onError={e=>{if(e.currentTarget.src.endsWith(LOGO))e.currentTarget.src=LOGO_FALLBACK;}} className={`site-logo${footer?' footer-logo':''}`} alt="Chaudhry Auto Workshop" loading="eager" decoding="async" width={footer?160:178} height={footer?58:60} fetchPriority="high"/>}
+function Logo({footer=false}){return <img src={LOGO} onError={e=>{const el=e.currentTarget;if(el.src.endsWith(LOGO))el.src=LOGO_FALLBACK;else if(el.src.endsWith(LOGO_FALLBACK))el.src=LOGO_FALLBACK_2;}} className={`site-logo${footer?' footer-logo':''}`} alt="Chaudhry Auto Workshop" loading="eager" decoding="sync" width={footer?160:178} height={footer?58:60} fetchPriority="high"/>}
 function App(){
  const[open,setOpen]=useState(false);const root=useRef();
  useEffect(()=>{try{gsap.fromTo('.hero-copy > *',{y:35,opacity:0},{y:0,opacity:1,duration:1,stagger:.1,ease:'power3.out'});gsap.fromTo('.bmw-experience',{y:45,opacity:0,scale:.97},{y:0,opacity:1,scale:1,duration:1.25,ease:'power4.out',delay:.15});gsap.utils.toArray('.reveal').forEach(el=>gsap.fromTo(el,{y:45,opacity:0},{y:0,opacity:1,duration:.8,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 84%'}}));}catch(e){console.warn('Motion fallback:',e)}return()=>{try{ScrollTrigger.getAll().forEach(t=>t.kill())}catch(e){}}},[]);
