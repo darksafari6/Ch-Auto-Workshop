@@ -57,3 +57,12 @@
  .car-controls span{white-space:nowrap}
 }
 @media(prefers-reduced-motion:reduce){.orbit,.marquee div{animation:none!important}.car-scene{transition:none!important}}
+
+/* Use the real CH Auto Workshop logo supplied by the owner. */
+.site-logo{display:block!important;width:68px!important;height:68px!important;min-width:68px!important;object-fit:contain!important;border-radius:14px!important;filter:drop-shadow(0 5px 16px rgba(0,110,255,.24))!important}
+.nav .brand::before,.footer-brand::before{display:none!important;content:none!important}
+.nav .brand{width:72px!important;min-width:72px!important;height:72px!important}
+.footer-brand{width:72px!important;min-width:72px!important;height:72px!important}
+.footer-logo{width:72px!important;height:72px!important}
+@media(max-width:900px){.nav .brand,.nav .brand .site-logo{width:58px!important;min-width:58px!important;height:58px!important}.nav .brand .site-logo{border-radius:12px!important}}
+@media(max-width:520px){.nav .brand,.nav .brand .site-logo{width:54px!important;min-width:54px!important;height:54px!important}.nav .brand .site-logo{border-radius:10px!important}}
